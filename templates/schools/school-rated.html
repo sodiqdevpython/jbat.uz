@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<div class="py-5">
+    <div class="container mt-5">
+        <div class="card p-4">
+            <form>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label for="yil" class="form-label">Yil</label>
+                        <select id="yil" class="form-select">
+                            <option selected>2021</option>
+                            <!-- Boshqa yillar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="hudud" class="form-label">Hudud</label>
+                        <select id="hudud" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa hududlar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="tuman" class="form-label">Tuman</label>
+                        <select id="tuman" class="form-select">
+                            <option selected>Tanlang...</option>
+                            <!-- Boshqa tumanlar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="maktab-raqami" class="form-label">Maktab raqami</label>
+                        <input type="text" class="form-control" id="maktab-raqami">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="maktab-turi" class="form-label">Maktab turi</label>
+                        <select id="maktab-turi" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa maktab turlari -->
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Qidirish</button>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-md-2">
+                        <label for="i-soha" class="form-label">I-Soha</label>
+                        <select id="i-soha" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa sohalar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="ii-soha" class="form-label">II-Soha</label>
+                        <select id="ii-soha" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa sohalar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="iii-soha" class="form-label">III-Soha</label>
+                        <select id="iii-soha" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa sohalar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="iv-soha" class="form-label">IV-Soha</label>
+                        <select id="iv-soha" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa sohalar -->
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="umumiy-ball" class="form-label">Umumiy ball</label>
+                        <select id="umumiy-ball" class="form-select">
+                            <option selected>Barchasi</option>
+                            <!-- Boshqa ball variantlari -->
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

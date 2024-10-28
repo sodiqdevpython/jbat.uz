@@ -1,0 +1,114 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="mb-0">Muassasa Yangilash</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="organization_number">Muassasa Raqami</label>
+                        <input type="number" class="form-control" id="organization_number" name="organization_number"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Muassasa Nomi</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="education_type">Ta'lim Turi</label>
+                        <select class="form-control" id="education_type" name="education_type" required>
+                            <option value="maktabgacha">Maktabgacha ta'lim</option>
+                            <option value="maktab">Umumiy o'rta ta'lim maktabi</option>
+                            <option value="musiqa_maktab">Musiqa maktabi</option>
+                            <option value="sport_maktab">Sport maktabi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="power">Quvvat</label>
+                        <input type="number" class="form-control" id="power" name="power" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vr_mode_url">VR Rejim URL</label>
+                        <input type="url" class="form-control" id="vr_mode_url" name="vr_mode_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="is_inclusive">Inklyuzivmi?</label>
+                        <select class="form-control" id="is_inclusive" name="is_inclusive">
+                            <option value="False">Yo'q</option>
+                            <option value="True">Ha</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Reyting</label>
+                        <select class="form-control" id="rating" name="rating">
+                            <option value="">Tanlang</option>
+                            <option value="red">Qoniqarsiz</option>
+                            <option value="yellow">O'rtacha</option>
+                            <option value="green">Yaxshi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">Tuman</label>
+                        <input type="text" class="form-control" id="district" name="district">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Shahar</label>
+                        <input type="text" class="form-control" id="city" name="city">
+                    </div>
+                    <div class="form-group">
+                        <label for="region">Viloyat</label>
+                        <input type="text" class="form-control" id="region" name="region" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ball">Ball</label>
+                        <input type="number" class="form-control" id="ball" name="ball" value="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Yangilash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .page-wrapper {
+        margin-top: 50px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-radius: 0.5rem;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

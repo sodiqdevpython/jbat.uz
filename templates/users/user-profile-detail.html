@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load phone_number %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'src/users/profile-detail.css' %}">
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div style="height: 350px;" class="col-12 col-md-3 bg-card rounded pb-5 shadow">
+                <img class="img-fluid w-100" style="height: 300px; object-fit: fill;"
+                    src="{% static 'assets/user.jpg' %}" alt="Rasm yuklanmadi">
+                <h3 class="text-center">{{ user.fio }} <br /><span>{{ user.position }}</span></h3>
+            </div>
+            <div class="col-12 col-md-8 container">
+                <div style="height: 350px;" class="offset-md-1 bg-card rounded shadow row">
+                    <div class="col-12 col-md-6">
+                        <h3 class="mt-4">Ism: {{user.first_name}}</h3>
+                        <h3 class="mt-4">Familiya: {{user.last_name}}</h3>
+                        <h3 class="mt-4">Otasining ismi: {{user.father_name}}</h3>
+                        <h3 class="mt-4">Karta raqami: {{user.passport_id}}</h3>
+                        <h3 class="mt-4">Tug'ilgan yili: {{user.born_in}}</h3>
+                        {% if user.command_pdf %}
+                        <h3 class="mt-4">
+                            <a href="{{ user.command_pdf.url }}" download="{{ user.first_name }}">
+                                <button class="btn btn-success rounded-pill shadow text-white px-3 py-1">
+                                    <i class="fa fa-download"></i> Buyruqni yuklab olish
+                                </button>
+                            </a>
+                        </h3>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-5">
+                        {% if user.is_selected %}
+                        <h3 class="mt-4">Biriktirilganligi: <span
+                                class="bg-success shadow text-white px-4 py-1 rounded-pill">Ha</span></h3>
+                        {% else %}
+                        <h3 class="mt-4">Biriktirilganligi: <span
+                                class="bg-danger shadow text-white px-4 py-1 rounded-pill">Yo'q</span></h3>
+                        {% endif %}
+                        <h3 class="mt-4">JSHIR: {{user.pinfl}}</h3>
+                        <h3 class="mt-4">Telefon raqam: {{ user.tel_number|phone_number }}</h3>
+                        <h3 class="mt-4">Manzil: {{user.manzil}}</h3>
+                        <h3 class="mt-4">Ro'yxatdan o'tgan: {{ user.created|date:"d.m.Y m:h" }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="mt-5">
+            <a class=" btn btn-primary shadow rounded-pill" href="{% url 'update_profile' user.id %}">Tahrirlash</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger rounded-pill shadow" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                O'chirish
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            Ushbu foydalanuvchini o'chirishga
+                            rozimisiz ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary rounded-pill shadow"
+                                data-bs-dismiss="modal">Orqaga
+                                qaytish</button>
+                            <form style="display: inline;" method="delete"
+                                action="{% url 'delete_user' user.passport_id %}">
+                                {% csrf_token %}
+                                <input class="btn btn-danger rounded-pill shadow" type="submit" value="O'chirish">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+
+{% endblock content %}

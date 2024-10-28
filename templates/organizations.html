@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+
+    <div class="container-fluid">
+
+        <div class="card-group d-flex flex-col">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-select" id="viloyat">
+                            <option value="">Barchasi</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="tumanShahar">
+                            <option value="">Barchasi</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="joyNomi" placeholder="Joy nomi">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="inklyuvivligi">
+                            <option value="">Inklyuziv emas</option>
+                            <option value="">Yaxshi</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="holati">
+                            <option value="">Yaxshi</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" id="qidirish">Qidirish</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
