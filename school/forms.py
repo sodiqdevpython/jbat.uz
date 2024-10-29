@@ -91,6 +91,7 @@ class CreateOrganizationForm(forms.ModelForm):
             'latitude',
             'longitude',
             'admin',
+            'students_amount'
         ]
 
         widgets = {
@@ -106,6 +107,7 @@ class CreateOrganizationForm(forms.ModelForm):
             'latitude': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kenglik'}),
             'longitude': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uzunlik'}),
             'admin': forms.TextInput(attrs={'class': 'form-control'}),
+            'students_amount': forms.TextInput(attrs={'class': 'form-control'})
         }
 
         labels = {
@@ -121,4 +123,5 @@ class CreateOrganizationForm(forms.ModelForm):
         'latitude': 'Kenglik',
         'longitude': 'Uzunlik',
         'admin': 'Admin',
+        'students_amount': "O'quvchilar sig'imi",
     }

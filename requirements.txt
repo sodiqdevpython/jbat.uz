@@ -1,0 +1,4 @@
+Pillow
+django-simple-history
+django-crispy-forms
+crispy-bootstrap5

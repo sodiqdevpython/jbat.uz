@@ -122,7 +122,7 @@ class OverallClasses(BaseModel):
 #! Rooms category
 
 class RoomsType(BaseModel):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=256, unique=True)
 
     def __str__(self):
         return self.name
