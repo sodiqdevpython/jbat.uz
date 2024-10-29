@@ -16,7 +16,10 @@ def login_view(request):
             user = authenticate(request, username=data['username'], password=data['password'])
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                if request.user.is_superuser:
+                    return redirect('dashboard')
+                else:
+                    return redirect('home')
             else:
                 error_message = "Foydalanuvchi nomi yoki parol xato !"
 

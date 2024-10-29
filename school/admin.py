@@ -42,7 +42,7 @@ class CitiesAdmin(SimpleHistoryAdmin):
 @admin.register(Organizations)
 class OrganizationsAdmin(SimpleHistoryAdmin):
     search_fields = ['name', 'district__name', 'city__name']
-    list_display = ['name', 'education_type', 'power', 'is_inclusive', 'rating']
+    list_display = ['name', 'education_type', 'power', 'is_inclusive', 'rating', 'is_active', 'students_amount']
     list_filter = ['education_type', 'rating', 'district', 'city']
     list_per_page = 20
     ordering = ['name']

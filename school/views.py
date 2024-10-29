@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import OrganizationStatistics
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile, Organizations, Regions, Districts, Cities
+from .models import UserProfile, Organizations, Regions, Districts
 from accounts.forms import UpdateProfileForm
 from django.db.models import Q
-from .forms import OrganizationUpdateForm, CreateOrganizationForm
+from .forms import UpdateOrganizationForm, CreateOrganizationForm
 
 
 @login_required
@@ -25,7 +25,7 @@ def schools(request):
 
 def users(request):
 
-    users = UserProfile.objects.all()
+    users = UserProfile.objects.filter(is_active=True, is_super_admin=False)
 
     context = {
         'users': users
@@ -35,7 +35,7 @@ def users(request):
 
 @login_required
 def organizations(request):
-    org = Organizations.objects.all()
+    org = Organizations.objects.filter(is_active=True)
 
     region_id = request.GET.get('region')
     district_id = request.GET.get('district')
@@ -67,13 +67,16 @@ def organizations(request):
 
 @login_required
 def organization_detail(request, org_id):
+
     organization = get_object_or_404(Organizations, id=org_id)
-    
-    context = {
-        'organization': organization
-    }
-    
-    return render(request, 'organizations/detail.html', context)
+    if organization.is_active:
+        context = {
+            'organization': organization
+        }
+        
+        return render(request, 'organizations/detail.html', context)
+    else:
+        return HttpResponse("<h1>Ushbu muassasa admin tomonidan o'chirilgan bo'lishi mumkin</h1>")
 
 
 @login_required
@@ -130,12 +133,12 @@ def update_organization(request, org_id):
     organization = get_object_or_404(Organizations, id=org_id)
 
     if request.method == 'POST':
-        form = OrganizationUpdateForm(request.POST, instance=organization)
+        form = UpdateOrganizationForm(request.POST, instance=organization)
         if form.is_valid():
             form.save()
             return redirect('organization_detail', org_id=organization.id)
     else:
-        form = OrganizationUpdateForm(instance=organization)
+        form = UpdateOrganizationForm(instance=organization)
 
     context = {
         'form': form,
@@ -161,3 +164,14 @@ def create_organization(request):
         'form': form
     }
     return render(request, 'organizations/create.html', context)
+
+
+@login_required
+def delete_organization(request, org_id):
+    if request.user.is_superuser and request.method=='POST':
+        org = get_object_or_404(Organizations, id=org_id)
+        org.is_active = False
+        org.save()
+        return redirect('organizations')
+    else:
+        return HttpResponse("Sizga mumkin emas")

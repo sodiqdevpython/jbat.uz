@@ -75,12 +75,22 @@ class Organizations(BaseModel):
     
     region = models.ForeignKey(Regions, on_delete=models.CASCADE)
 
+    students_amount = models.PositiveBigIntegerField(default=0)
+
     ball = models.PositiveBigIntegerField(default=0)
 
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    latitude = models.CharField(max_length=32)
+    longitude = models.CharField(max_length=32)
 
-    admin = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+    admin = models.OneToOneField("school.UserProfile", on_delete=models.SET_NULL, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if self.admin:
+            self.admin.is_selected = True
+            self.admin.save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

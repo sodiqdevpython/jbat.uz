@@ -1,0 +1,7 @@
+.idea
+.env
+./env
+env
+migrations
+db.sqlite3
+media

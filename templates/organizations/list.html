@@ -106,8 +106,8 @@
                                         </td>
                                         <td>
                                             {% if org.admin %}
-                                            <a href="{% url 'detail_profile' org.admin.user_profile.id  %}">
-                                                {{ org.admin.user_profile }}
+                                            <a href="{% url 'detail_profile' org.admin.id  %}">
+                                                {{ org.admin }}
                                             </a>
                                             {% else %}
                                             <p>Biriktirilmagan</p>

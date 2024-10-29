@@ -3,78 +3,118 @@
 {% block content %}
 
 <div class="page-wrapper py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h2 class="text-center mb-4">Yangi Tashkilot Qo'shish</h2>
-                <form method="post" enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
-                    {% csrf_token %}
+    <div class="container-fluid">
 
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.organization_number|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.name|as_crispy_field }}
-                        </div>
-                    </div>
+        <h2 class="text-center mb-4">Yangi Tashkilot Qo'shish</h2>
+        <div class="row"></div>
+        <form method="post" enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
+            {% csrf_token %}
 
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.education_type|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.power|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.vr_mode_url|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.is_inclusive|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.district|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.city|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.region|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.ball|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.latitude|as_crispy_field }}
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            {{ form.longitude|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            {{ form.admin|as_crispy_field }}
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Qo'shish</button>
-                </form>
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.organization_number|as_crispy_field }}
+                </div>
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.name|as_crispy_field }}
+                </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.education_type|as_crispy_field }}
+                </div>
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.power|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.vr_mode_url|as_crispy_field }}
+                </div>
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.is_inclusive|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.region|as_crispy_field }} <!-- Viloyat -->
+                </div>
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.admin|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Asosiy tanlov uchun select maydoni -->
+                <div class="col-md-6 col-12 mb-4">
+                    <label for="location-type">Joylashuv</label>
+                    <select id="location-type" class="form-control" name="location_type">
+                        <option value="">Tanlang...</option>
+                        <option value="city">Shahar</option>
+                        <option value="district">Tuman</option>
+                    </select>
+                </div>
+
+                <!-- Shahar tanlanganida ko'rinadigan qism -->
+                <div class="col-md-6 col-12 mb-4" id="city-field" style="display: none;">
+                    {{ form.city|as_crispy_field }}
+                </div>
+
+                <!-- Tuman tanlanganida ko'rinadigan qism -->
+                <div class="col-md-6 col-12 mb-4" id="district-field" style="display: none;">
+                    {{ form.district|as_crispy_field }}
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const locationTypeSelect = document.getElementById("location-type");
+                    const cityField = document.getElementById("city-field");
+                    const districtField = document.getElementById("district-field");
+
+                    locationTypeSelect.addEventListener("change", function () {
+                        if (locationTypeSelect.value === "city") {
+                            cityField.style.display = "block";
+                            districtField.style.display = "none";
+                            districtField.querySelector("select").value = "";  // Districtni tozalash
+                        } else if (locationTypeSelect.value === "district") {
+                            cityField.style.display = "none";
+                            districtField.style.display = "block";
+                            cityField.querySelector("select").value = "";  // Cityni tozalash
+                        } else {
+                            cityField.style.display = "none";
+                            districtField.style.display = "none";
+                            cityField.querySelector("select").value = "";  // Cityni tozalash
+                            districtField.querySelector("select").value = "";  // Districtni tozalash
+                        }
+                    });
+                });
+            </script>
+
+
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.latitude|as_crispy_field }}
+                </div>
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.longitude|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-12 mb-4">
+                    {{ form.students_amount }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">Qo'shish</button>
+        </form>
     </div>
 </div>
+</div>
+</div>
+
 
 {% endblock content %}
