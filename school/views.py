@@ -3,23 +3,26 @@ from .models import OrganizationStatistics
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile, Organizations, Regions, Districts
 from accounts.forms import UpdateProfileForm
-from django.db.models import Q
+from django.db.models import Q, Count
 from .forms import UpdateOrganizationForm, CreateOrganizationForm
 
 
 @login_required
 def dashboard(request):
-
     if request.user.is_superuser:
-
-        stats = OrganizationStatistics.objects.all()
+        stats = []
+        
+        for stat in OrganizationStatistics.objects.all():
+            organization_count = Organizations.objects.filter(education_type=stat.type).count()
+            stats.append({
+                'type': stat.type,
+                'number': organization_count
+            })
 
         context = {
             'stats': stats
         }
-
         return render(request, 'index.html', context)
-    
     else:
         return redirect('home')
 
