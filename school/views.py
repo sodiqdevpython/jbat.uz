@@ -10,14 +10,18 @@ from .forms import UpdateOrganizationForm, CreateOrganizationForm
 @login_required
 def dashboard(request):
 
-    stats = OrganizationStatistics.objects.all()
+    if request.user.is_superuser:
 
-    context = {
-        'stats': stats
-    }
+        stats = OrganizationStatistics.objects.all()
 
-    return render(request, 'index.html', context)
+        context = {
+            'stats': stats
+        }
 
+        return render(request, 'index.html', context)
+    
+    else:
+        return redirect('home')
 
 def schools(request):
     return render(request, 'schools/school-ratings.html')
@@ -97,8 +101,9 @@ def update_profile(request, id):
     user_data = get_object_or_404(UserProfile, id=id)
 
     if request.method == 'POST' and request.user.is_superuser:
-        form = UpdateProfileForm(request.POST, request.FILES, instance=user_data)
+        form = UpdateProfileForm(request.POST or None, request.FILES or None, instance=user_data)
         if form.is_valid():
+            print("Topshirildi")
             form.save()
             return redirect('detail_profile', id)
         else:
@@ -118,7 +123,7 @@ def update_profile(request, id):
 def search_users(request):
     input_data = request.GET.get('searched_for')
     users = UserProfile.objects.filter(
-        Q(first_name__icontains=input_data) | Q(last_name__icontains=input_data)
+        Q(first_name__icontains=input_data) | Q(last_name__icontains=input_data) | Q(tel_number__icontains = input_data)
     )
 
     context = {

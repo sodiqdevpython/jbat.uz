@@ -1,6 +1,5 @@
 from django import forms
 from .models import Organizations, Regions, Districts, Cities, UserProfile
-from django.forms import NumberInput
 
 
 class RegionForm(forms.ModelForm):

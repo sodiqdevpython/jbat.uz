@@ -6,8 +6,10 @@ from django.contrib.auth.models import User
 from school.models import UserProfile
 
 def login_view(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_superuser:
         return redirect('dashboard')
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('home')
 
     if request.method == 'POST':
         form = SignInForm(request.POST)

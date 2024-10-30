@@ -1,0 +1,106 @@
+{% extends 'base/base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="page-wrapper py-5">
+    <div class="container-fluid">
+
+        <!-- Page Header and Add Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Xonalar Ro'yxati</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomModal">
+                Yangi xona qo'shish
+            </button>
+        </div>
+
+        <!-- Room List Table -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Xona Kategoriyasi</th>
+                        <th>Sig'imi</th>
+                        <th>Xona raqami</th>
+                        <th>Sinf</th>
+                        <th>Harakatlar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ room.room_category.name }}</td>
+                        <td>{{ room.students_amount }} ta</td>
+                        <td>{{ room.room_number }}-xona</td>
+                        <td>{{ room.room_class.name }}</td>
+                        <td>
+                            <a href="{% url 'update_room' room.id %}" class="btn btn-warning btn-sm">Tahrirlash</a>
+                            <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm">O'chirish</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">Xonalar mavjud emas</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for Room Creation -->
+        <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="{% url 'create_room' %}">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="roomModalLabel">Yangi xona qo'shish</h5>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Room Category Field -->
+                            <div class="mb-3">
+                                <label for="roomCategory" class="form-label">Xona Kategoriyasi</label>
+                                <select class="form-control" name="room_category" id="roomCategory" required>
+                                    {% for category in room_categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- Students Amount Field -->
+                            <div class="mb-3">
+                                <label for="studentsAmount" class="form-label">Sig'im</label>
+                                <input type="number" class="form-control" name="students_amount" id="studentsAmount"
+                                    placeholder="Sig'imi" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentsAmount" class="form-label">Xona raqami</label>
+                                <input type="number" class="form-control" name="room_number" id="studentsAmount"
+                                    placeholder="Xona raqami" required>
+                            </div>
+                            <!-- Room Class Field -->
+                            <div class="mb-3">
+                                <label for="roomClass" class="form-label">Sinf</label>
+                                <select class="form-control" name="room_class" id="roomClass" required>
+                                    {% for overall_class in overall_classes %}
+                                    <option value="{{ overall_class.id }}">{{ overall_class.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor
+                                qilish</button>
+                            <button type="submit" class="btn btn-primary">Saqlash</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock content %}

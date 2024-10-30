@@ -1,0 +1,86 @@
+{% extends 'base/base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="page-wrapper py-5">
+    <div class="container-fluid">
+
+        <!-- Page Header and Add Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Xonalar Jihozlari Ro'yxati</h2>
+            <a href="{% url 'create_equipment' %}" class="btn btn-primary">
+                Yangi jihoz qo'shish
+            </a>
+        </div>
+
+        <!-- Equipment List Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Jihoz Nomi</th>
+                        <th>Soni</th>
+                        <th>Invert Raqam</th>
+                        <th>Kategoriya</th>
+                        <th>Tasdiqlangan Sana</th>
+                        <th>Harakatlar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipment in equipment_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+
+                        <td><a href="{% url 'equipment_detail' equipment.id %}">{{ equipment.name }}</a></td>
+                        <td>{{ equipment.amount }}</td>
+                        <td>{{ equipment.invert_number }}</td>
+                        <td>{{ equipment.get_equipment_type_display }}</td>
+                        <td>{{ equipment.accepted_date }}</td>
+                        <td>
+                            <a href="{% url 'update_equipment' equipment.id %}"
+                                class="btn btn-warning btn-sm">Tahrirlash</a>
+                            <a href="{% url 'delete_equipment' equipment.id %}"
+                                class="btn btn-danger btn-sm">O'chirish</a>
+                        </td>
+                    </tr>
+                    </a>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">Jihozlar mavjud emas</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for Adding Equipment -->
+        <div class="modal fade" id="equipmentModal" tabindex="-1" aria-labelledby="equipmentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form method="post" action="{% url 'create_equipment' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="equipmentModalLabel">Yangi Jihoz Qo'shish</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form|crispy }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor
+                                qilish</button>
+                            <button type="submit" class="btn btn-primary">Saqlash</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}

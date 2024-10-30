@@ -1,0 +1,124 @@
+{% extends 'base/base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container py-5 mt-5">
+    <h2 class="text-center mb-4">Yangi Jihoz Qo'shish</h2>
+
+    <div class="card shadow p-4">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+                <!-- Jihoz Nomi and Miqdori -->
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Jihoz Nomi</label>
+                    <input type="text" class="form-control" name="name" id="name" required
+                        placeholder="Jihoz nomini kiriting">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="amount" class="form-label">Miqdori</label>
+                    <input type="number" class="form-control" name="amount" id="amount" min="1" required>
+                </div>
+
+                <!-- O'lchov Birligi and Mavjudligi -->
+                <div class="col-md-6 mb-3">
+                    <label for="measureType" class="form-label">O'lchov Birligi</label>
+                    <select class="form-select" name="measure_type" id="measureType" required>
+                        {% for key, value in form.measure_type.field.choices %}
+                        <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="avilableType" class="form-label">Holati</label>
+                    <select class="form-select" name="avilable_type" id="avilableType" required>
+                        {% for key, value in form.avilable_type.field.choices %}
+                        <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Qabul Qilingan Sana and Invert Raqami -->
+                <div class="col-md-6 mb-3">
+                    <label for="acceptedDate" class="form-label">Qabul Qilingan Sana</label>
+                    <input type="date" class="form-control" name="accepted_date" id="acceptedDate" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="invertNumber" class="form-label">Invert Raqami</label>
+                    <input type="text" class="form-control" name="invert_number" id="invertNumber" required>
+                </div>
+
+                <!-- Kirim Sanasi and Foydalanish Boshlangan Sana -->
+                <div class="col-md-6 mb-3">
+                    <label for="enteredDate" class="form-label">Kirim Sanasi</label>
+                    <input type="date" class="form-control" name="entered_date" id="enteredDate" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="whenFirstUsed" class="form-label">Foydalanish Boshlangan Sana</label>
+                    <input type="date" class="form-control" name="when_first_time_used" id="whenFirstUsed" required>
+                </div>
+
+                <!-- Ishlab Chiqarilgan Yili and Eskirish Foizi -->
+                <div class="col-md-6 mb-3">
+                    <label for="whenMade" class="form-label">Ishlab Chiqarilgan Yili</label>
+                    <input type="number" class="form-control" name="when_made" id="whenMade" placeholder="Masalan, 2020"
+                        min="1950" max="2024">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="pennyByYear" class="form-label">Eskirish Foizi (%)</label>
+                    <input type="number" class="form-control" name="penny_by_year" id="pennyByYear" step="0.01" min="0"
+                        required>
+                </div>
+
+                <!-- Jihoz Haqida (Tavsif) -->
+                <div class="col-12 mb-3">
+                    <label for="xarakteri" class="form-label">Jihoz Haqida</label>
+                    <textarea class="form-control" name="xarakteri" id="xarakteri" rows="3"
+                        placeholder="Tavsif"></textarea>
+                </div>
+
+                <!-- Jihoz Turi and Xona Tanlash -->
+                <div class="col-md-6 mb-3">
+                    <label for="equipmentType" class="form-label">Jihoz Turi</label>
+                    <select class="form-select" name="equipment_type" id="equipmentType" required>
+                        {% for key, value in form.equipment_type.field.choices %}
+                        <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="room" class="form-label">Xona Tanlang</label>
+                    <select class="form-select" name="room" id="room">
+                        {% for room in rooms %}
+                        <option value="{{ room.id }}">{{ room.room_number }}
+                            -xona</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Jihoz Rasmlari -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Jihoz Rasmi 1</label>
+                    <input type="file" class="form-control" name="image1">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Jihoz Rasmi 2</label>
+                    <input type="file" class="form-control" name="image2">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Jihoz Rasmi 3</label>
+                    <input type="file" class="form-control" name="image3">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success w-50">Jihozni Qo'shish</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

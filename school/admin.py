@@ -82,7 +82,7 @@ class RoomsAdmin(SimpleHistoryAdmin):
     list_filter = ['room_category']
     list_per_page = 20
     ordering = ['room_category__name']
-    autocomplete_fields = ['room_category', 'room_uquipment']
+    autocomplete_fields = ['room_category']
 
 
 @admin.register(OrganizationStatistics)

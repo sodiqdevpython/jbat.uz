@@ -1,0 +1,67 @@
+{% extends 'base/base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="page-wrapper py-5">
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+        <h2 class="mb-4">Xonani Tahrirlash</h2>
+
+        <!-- Room Update Form -->
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="{% url 'update_room' room.id %}">
+                    {% csrf_token %}
+
+                    <!-- Room Category Field -->
+                    <div class="mb-3">
+                        <label for="roomCategory" class="form-label">Xona Kategoriyasi</label>
+                        <select class="form-control" name="room_category" id="roomCategory" required>
+                            {% for category in room_categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Students Amount Field -->
+                    <div class="mb-3">
+                        <label for="studentsAmount" class="form-label">Sig'imi</label>
+                        <input type="number" class="form-control" name="students_amount" id="studentsAmount"
+                            value="{{ room.students_amount }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="studentsAmount" class="form-label">Xona raqami</label>
+                        <input type="number" class="form-control" name="room_number" id="studentsAmount"
+                            value="{{ room.room_number }}" required>
+                    </div>
+
+                    <!-- Room Class Field -->
+                    <div class="mb-3">
+                        <label for="roomClass" class="form-label">Sinf</label>
+                        <select class="form-control" name="room_class" id="roomClass" required>
+                            {% for overall_class in overall_classes %}
+                            <option value="{{ overall_class.id }}">
+                                {{ overall_class.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'rooms_list' %}" class="btn btn-secondary">Orqaga</a>
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

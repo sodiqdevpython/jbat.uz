@@ -4,74 +4,78 @@
 {% block content %}
 <div class="page-wrapper">
     <div class="container-fluid">
-        <form method="post" enctype="multipart/form-data">
-            <div class="row justify-content-between"> {% csrf_token %}
+        <form method="post" action="{% url 'update_profile' user_data.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row justify-content-between">
                 <div class="col-md-5 mb-3">
                     <div class="form-group">
                         <label for="firstName" class="text-md">Ism</label>
-                        <input name="first_name" value="{{ user_data.first_name }}" id="firstName" maxlength="30" class="form-control shadow-sm"
-                            type="text" required/>
+                        <input name="first_name" value="{{ user_data.first_name }}" id="firstName" maxlength="30"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
 
                     <div class="form-group">
                         <label for="fatherName" class="text-md">Otasining ismi</label>
-                        <input name="father_name" value="{{ user_data.father_name }}" id="fatherName" maxlength="30" class="form-control shadow-sm"
-                            type="text" required/>
+                        <input name="father_name" value="{{ user_data.father_name }}" id="fatherName" maxlength="30"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
 
                     <div class="form-group">
                         <label for="pinfl" class="text-md">PINFL</label>
-                        <input name="pinfl" value="{{ user_data.pinfl }}" id="pinfl" maxlength="14" class="form-control shadow-sm" type="text"
-                        required/>
+                        <input name="pinfl" value="{{ user_data.pinfl }}" id="pinfl" maxlength="14"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
 
                     <label class="text-md">Telefon raqami</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">+998</span>
-                        <input name="tel_number" value="{{ user_data.tel_number }}" class="form-control shadow-sm" type="tel" placeholder="(90) 123-45-67"
-                            maxlength="9" required/>
+                        <input name="tel_number" value="{{ user_data.tel_number }}" class="form-control shadow-sm"
+                            type="tel" placeholder="(90) 123-45-67" maxlength="9" required />
                     </div>
 
                     <div class="form-group">
                         <label for="born" class="text-md">Tug'ilgan yil</label>
-                        <input name="born_in" value="{{ user_data.born_in|date:'Y-m-d' }}" id="born" class="form-control shadow-sm" type="date" required/>
+                        <input name="born_in" value="{{ user_data.born_in|date:'Y-m-d' }}" id="born"
+                            class="form-control shadow-sm" type="date" required />
                     </div>
                 </div>
 
                 <div class="col-md-5 mb-3">
                     <div class="form-group">
                         <label for="password" class="text-md">Parol</label>
-                        <input value="*******" id="password" maxlength="30" class="form-control shadow-sm" type="text"/>
+                        <input value="*******" id="password" maxlength="30" class="form-control shadow-sm" type="text"
+                            readonly />
                     </div>
 
                     <div class="form-group">
                         <label for="lastName" class="text-md">Familiya</label>
-                        <input id="lastName" value="{{ user_data.last_name }}" name="last_name" maxlength="30" class="form-control shadow-sm" type="text"
-                        required/>
+                        <input id="lastName" value="{{ user_data.last_name }}" name="last_name" maxlength="30"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
 
                     <div class="form-group">
                         <label for="idCard" class="text-md">ID raqam</label>
-                        <input id="idCard" value="{{ user_data.passport_id }}" name="passport_id" maxlength="9" class="form-control shadow-sm" type="text" 
-                        required/>
+                        <input id="idCard" value="{{ user_data.passport_id }}" name="passport_id" maxlength="9"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
 
                     <div class="form-group">
                         <label for="profession" class="text-md">Kasbi</label>
-                        <input id="profession" value="{{ user_data.position }}" name="position" maxlength="32" class="form-control shadow-sm" type="text" 
-                        required/>
+                        <input id="profession" value="{{ user_data.position }}" name="position" maxlength="32"
+                            class="form-control shadow-sm" type="text" required />
                     </div>
                     <div style="width: 100%;" class="form-group mt-3">
                         <label for="expireCommand">Buyruq tugash muddati</label>
-                        <input id="expireCommand" value="{{ user_data.command_expire|date:'Y-m-d' }}" name="command_expire" class="form-control shadow-sm" type="date"
-                        required/>
+                        <input id="expireCommand" value="{{ user_data.command_expire|date:'Y-m-d' }}"
+                            name="command_expire" class="form-control shadow-sm" type="date" required />
                     </div>
                 </div>
             </div>
 
             <div class="mt-3">
                 <label for="address">Manzil</label>
-                <textarea id="address" name="manzil" maxlength="300" class="form-control shadow-sm" rows="3" required>{{ user_data.manzil }}</textarea>
+                <textarea id="address" name="manzil" maxlength="300" class="form-control shadow-sm" rows="3"
+                    required>{{ user_data.manzil }}</textarea>
             </div>
 
             <div class="mt-4">
@@ -79,23 +83,36 @@
                     <label
                         class="d-flex flex-column align-items-center justify-content-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
                         <div class="d-flex flex-column align-items-center justify-content-center">
-                            <svg style="height: 50px;" class="text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 20 16">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            <svg style="height: 50px;" class="text-gray-500" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                             </svg>
-                            <p class="mb-2 text-sm text-gray-500"><span class="font-weight-bold">Fayl Yuklash uchun bosing</span></p>
+                            <p class="mb-2 text-sm text-gray-500"><span class="font-weight-bold">Fayl Yuklash uchun
+                                    bosing</span></p>
                             <p class="text-xs text-gray-500">Faqat pdf yoki docx qabul qilinadi</p>
                         </div>
                         <a href="{{ user_data.command_pdf.url }}">Faylni ko'rish</a>
-                        <input id="dropzone-file" name="command_pdf" type="file" class="d-none" accept=".pdf,.docx" required />
+                        <input id="dropzone-file" name="command_pdf" type="file" class="d-none" accept=".pdf,.docx"
+                            required />
                     </label>
-                        <!-- Fayl yuklangandan keyin ko'rsatish uchun -->
-                        <p id="file-name" class="mt-2 text-sm text-gray-500"></p>
+                    <p id="file-name" class="mt-2 text-sm text-gray-500"></p>
                 </div>
-
+                <input style="z-index: 10;" type="submit" value="Saqlash" class="btn btn-primary px-3 mt-5 shadow">
             </div>
-            <input type="submit" value="Saqlash" class="btn btn-primary px-3 mt-5 shadow">
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger mt-3">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% endfor %}
         </form>
     </div>
 </div>

@@ -118,17 +118,7 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item d-none d-md-block">
-                            <a class="nav-link" href="javascript:void(0)">
-                                <form>
-                                    <div class="customize-input">
-                                        <input class="form-control shadow custom-shadow custom-radius border-0 bg-white"
-                                            type="search" placeholder="Qidirish" aria-label="Search">
-                                        <i class="form-control-icon" data-feather="search"></i>
-                                    </div>
-                                </form>
-                            </a>
-                        </li>
+
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -139,7 +129,8 @@
                                     width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"> <span class="text-dark">
 
-                                    </span> <i data-feather="chevron-down" class="svg-icon"></i></span>
+                                        {{ request.user }}</span> <i data-feather="chevron-down"
+                                        class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                                 <a class="dropdown-item" href="#"><i data-feather="user" class="svg-icon mr-2 ml-1"></i>
@@ -168,13 +159,17 @@
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Umumiy</span></a></li>
 
-                        <li class="sidebar-item"><a href="#" class="sidebar-link""
-                                aria-expanded=" false"><i data-feather="users" class="feather-icon"></i><span
+                        <li class="sidebar-item"><a href="{% url 'class_list' %}" class="sidebar-link""
+                                aria-expanded=" false"><i data-feather="bookmark" class="feather-icon"></i><span
                                     class="hide-menu">Sinflar</span></a></li>
 
-                        <li class="sidebar-item"><a href="#" class="sidebar-link""
-                                        aria-expanded=" false"><i data-feather="clipboard"
-                                    class="feather-icon"></i><span class="hide-menu">Xona jihozlari</span></a></li>
+                        <li class="sidebar-item"><a href="{% url 'rooms_list' %}" class="sidebar-link"
+                                aria-expanded=" false"><i data-feather="layers" class="feather-icon"></i><span
+                                    class="hide-menu">Xonalar</span></a></li>
+
+                        <li class="sidebar-item"><a href="{% url 'equipment_list' %}" class="sidebar-link"
+                                aria-expanded="false"><i data-feather="database" class="feather-icon"></i><span
+                                    class="hide-menu">Jihozlar</span></a></li>
 
                         <ul aria-expanded="false" class="collapse first-level base-level-line">
                             <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span

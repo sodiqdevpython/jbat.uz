@@ -109,6 +109,7 @@ class OverallClasses(BaseModel):
     organization = models.ForeignKey('school.Organizations', on_delete=models.CASCADE)
     name = models.CharField(max_length=64, unique=True)
     rooms_amount = models.PositiveSmallIntegerField(default=1, help_text="Xonalar soni")
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -122,7 +123,10 @@ class OverallClasses(BaseModel):
 #! Rooms category
 
 class RoomsType(BaseModel):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
+    organization = models.ForeignKey('school.Organizations', on_delete=models.CASCADE, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -137,7 +141,7 @@ class RoomsType(BaseModel):
 #! Xona jihozlari
 
 class RoomsEquipment(BaseModel):
-    name = models.CharField(max_length=256, validators=[MinLengthValidator(3, "Jihoz nomi juda qisqa, xato kiritgan bo'lishingiz mumkin !")])
+    name = models.CharField(max_length=1024, validators=[MinLengthValidator(3, "Jihoz nomi juda qisqa, xato kiritgan bo'lishingiz mumkin !")])
     measure_type = models.CharField(max_length=8, choices=MeasureType.choices)
     amount = models.PositiveBigIntegerField(default=1) # shu jihozdan nechtaligi
 
@@ -145,12 +149,13 @@ class RoomsEquipment(BaseModel):
 
     accepted_date = models.DateField() # bu jihoz(lar) qachon olib kelingan
 
+    invert_number = models.CharField(max_length=128, unique=True) #invert raqam
+
     entered_date = models.DateField() # bu jihoz qachon kirim qilindi
 
     when_first_time_used = models.DateField() #qachon_foydalanildi
 
     when_made = models.PositiveIntegerField(validators=[MinValueValidator(1950), MaxValueValidator(2024)], null=True, blank=True) #shu_jihoz_qachon_ishlab_chiqarilganligi
-
 
     
     image1 = models.ImageField(upload_to='school/rooms/equipement/', null=True, blank=True)
@@ -162,6 +167,12 @@ class RoomsEquipment(BaseModel):
     xarakteri = models.TextField(null=True, blank=True)
 
     equipment_type = models.CharField(max_length=16, choices=EquipmentType.choices)
+
+    room = models.ForeignKey('school.Rooms', on_delete=models.SET_NULL, null=True, blank=True)
+
+    author = models.ForeignKey('school.UserProfile', on_delete=models.SET_NULL, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -177,10 +188,14 @@ class RoomsEquipment(BaseModel):
 class Rooms(BaseModel):
     room_category = models.ForeignKey(RoomsType, on_delete=models.SET_NULL, null=True, blank=True) # misol uchun informatika xonasi
     students_amount = models.PositiveSmallIntegerField(default=1) # sinf xonadagi o'quvchilar sig'imi
-    room_uquipment = models.ManyToManyField(RoomsEquipment)
+    room_class = models.ForeignKey(OverallClasses, on_delete=models.CASCADE, related_name='overal_cls', null=True, blank=True)
+    organization = models.ForeignKey(Organizations, on_delete=models.CASCADE, related_name='org_room', null=True, blank=True)
+    room_number = models.PositiveSmallIntegerField(null=True, blank=True) #xona raqami
+    author = models.ForeignKey('school.UserProfile', on_delete=models.CASCADE, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.room_category.name
+        return f"{self.id}"
     
     class Meta:
         verbose_name = "Xona"

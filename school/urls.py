@@ -3,7 +3,7 @@ from . import views
 from .decorators import superuser_required
 
 urlpatterns = [
-    path('', superuser_required(views.dashboard), name='dashboard'),
+    path('', views.dashboard, name='dashboard'),
     path('users-list/', superuser_required(views.users), name='users'),
 
     path('user/<str:id>/', superuser_required(views.detail_profile), name='detail_profile'),
