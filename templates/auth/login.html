@@ -10,6 +10,49 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="shortcut icon" href="{% static 'images/logo.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'src/auth/login.css' %}">
+    <style>
+        /* Umumiy kattalashtirish uchun width va height */
+        .main_container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .logo_container img {
+            width: 300px;
+            height: 150px;
+        }
+
+        .logo_container h2 {
+            font-size: 2.5rem;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 680px;
+            padding-top: 45px;
+            padding-bottom: 45px;
+            /* Karta kengligi ko'proq */
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-body h3 {
+            font-size: 2rem;
+        }
+
+        .form-control {
+            font-size: 1.25rem;
+            padding: 12px;
+            height: 50px;
+        }
+
+        .btn-custom {
+            font-size: 1.5rem;
+            padding: 6px 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,11 +63,9 @@
                     <img src="{% static 'images/logo.svg' %}" alt="logo" class="logo" />
                     <h2>JBAT</h2>
                 </div>
-
                 <div class="card shadow">
-                    <div class="card-body p-4">
-                        <h1 class="mb-4" style="font-size: 1.25rem; font-weight: 700; color: #212529;">Hisobingizga
-                            kiring</h1>
+                    <div class="card-body">
+                        <h5 class="mb-4">Hisobingizga kiring</h5>
                         <form method="post">{% csrf_token %}
                             <div class="mb-3">
                                 <label for="username" class="form-label">Pasport id</label>
