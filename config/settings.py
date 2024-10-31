@@ -136,17 +136,17 @@ STATIC_URL = 'static/'
 
 
 # Local
-# STATICFILES_DIRS = [ BASE_DIR / 'static' ]
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # /Local
 
 # Server
-STATIC_ROOT = '/home/jbatuz/jbat.uz/django/staticfiles'
-STATICFILES_DIRS = ('/home/jbatuz/jbat.uz/django/static',)
-MEDIA_URL = 'media/'
-MEDIA_ROOT = '/home/jbatuz/jbat.uz/django/media'
+# STATIC_ROOT = '/home/jbatuz/jbat.uz/django/staticfiles'
+# STATICFILES_DIRS = ('/home/jbatuz/jbat.uz/django/static',)
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = '/home/jbatuz/jbat.uz/django/media'
 # /Server
 
 
