@@ -7,6 +7,7 @@ from .forms import UpdateOrganizationForm, CreateOrganizationForm
 from django.utils import timezone
 from datetime import timedelta
 
+
 @login_required
 def dashboard(request):
     if request.user.is_superuser:
@@ -125,6 +126,7 @@ def organizations(request):
 def organization_detail(request, org_id):
 
     organization = get_object_or_404(Organizations, id=org_id)
+    
     if organization.is_active:
         context = {
             'organization': organization

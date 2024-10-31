@@ -1,12 +1,176 @@
-{% include 'base/base2.html' %}
+{% extends 'base/base2.html' %}
+{% load static %}
 {% block content %}
-<div class="page-wrapper mt-5 py-5">
+<style>
+    .container-fluid {
+        margin-top: 20px;
+    }
 
-    <div class="container">
+    .table {
+        margin-bottom: 20px;
+    }
 
+    h1,
+    h2 {
+        color: #333;
+    }
 
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
 
+    .table td {
+        vertical-align: middle;
+    }
+
+    .carousel-item img {
+        width: 100%;
+        height: auto;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 40vh;
+        width: 80vw;
+    }
+</style>
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Oxirgi Jihozlar</h2>
+                <div id="equipmentCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for item in equipment %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ item.image1.url }}" class="d-block" alt="{{ item.name }}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>{{ item.name }}</h5>
+                                <p>{{ item.amount }} {{ item.measure_type }} </p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="carousel-item active">
+                            <img src="{% static 'default_image.png' %}" class="d-block" alt="No Image">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Jihoz topilmadi</h5>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#equipmentCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Oldingi</span>
+                    </a>
+                    <a class="carousel-control-next" href="#equipmentCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Keyingi</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Xonalar Umumiy Ma'lumotlar</h2>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Xona Raqami</th>
+                            <th>Kategoriya</th>
+                            <th>O'quvchilar Son</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr>
+                            <td>{{ room.room_number }}</td>
+                            <td>{{ room.room_category.name }}</td>
+                            <td>{{ room.students_amount }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center">Xonalar topilmadi.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Xona Turlari Statistika</h2>
+                <div class="chart-container">
+                    <canvas id="roomsTypeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Umumiy Sinflar Statistika</h2>
+                <div class="chart-container">
+                    <canvas id="overallClassesChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
-{% endblock content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctxRoomsType = document.getElementById('roomsTypeChart').getContext('2d');
+    const roomsTypeChart = new Chart(ctxRoomsType, {
+        type: 'bar',
+        data: {
+            labels: {{ room_types| safe }},
+    datasets: [{
+        label: 'Xonalar Soni',
+        data: {{ room_counts| safe }},
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+            }]
+        },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+    });
+
+    const ctxOverallClasses = document.getElementById('overallClassesChart').getContext('2d');
+    const overallClassesChart = new Chart(ctxOverallClasses, {
+        type: 'pie',
+        data: {
+            labels: {{ overall_class_names| safe }},
+    datasets: [{
+        label: 'Umumiy Sinflar',
+        data: {{ overall_class_counts| safe }},
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 205, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(201, 203, 207, 0.6)'
+    ],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(255, 205, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(201, 203, 207, 1)'
+    ],
+        borderWidth: 1
+            }]
+        }
+    });
+</script>
+{% endblock %}

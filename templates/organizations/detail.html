@@ -44,11 +44,12 @@
                     </div>
                     <div class="card-body">
                         {% if organization.admin %}
-                        <p><strong>FIO:</strong> {{ organization.admin }}</p>
+                        <p><strong>FIO:</strong> <a href="{% url 'detail_profile' organization.admin.id %}">
+                                {{ organization.admin }}</a></p>
                         <p><strong>Telefon:</strong> {{ organization.admin.tel_number|phone_number }}</p>
                         <p><strong></strong></p>
-                        <a class="btn btn-success shadow"
-                            href="{{ organization.admin.user_profile.command_pdf.url }}">Hujjatlarni yuklash</a>
+                        <a class="btn btn-success shadow" href="{{ organization.admin.command_pdf.url }}">Hujjatlarni
+                            yuklash</a>
                         {% else %}
                         <p>Administrator tayinlanmagan.</p>
                         {% endif %}
@@ -73,27 +74,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for room in organization.rooms_set.all %}
+                            {% for room in rooms %}
                             <tr>
                                 <td>{{ room.room_category.name }}</td>
                                 <td>{{ room.students_amount }}</td>
                                 <td>
                                     <ul>
-                                        {% for equipment in room.room_uquipment.all %}
+                                        {% for equipment in room.equipments %}
                                         <li>{{ equipment.name }}</li>
                                         {% endfor %}
                                     </ul>
                                 </td>
                                 <td>
                                     <ul>
-                                        {% for equipment in room.room_uquipment.all %}
+                                        {% for equipment in room.equipments %}
                                         <li>{{ equipment.amount }} {{ equipment.get_measure_type_display }}</li>
                                         {% endfor %}
                                     </ul>
                                 </td>
                                 <td>
                                     <ul>
-                                        {% for equipment in room.room_uquipment.all %}
+                                        {% for equipment in room.equipments %}
                                         <li>{{ equipment.get_avilable_type_display }}</li>
                                         {% endfor %}
                                     </ul>
@@ -109,6 +110,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Statistikalar -->
         <div class="row mt-4">

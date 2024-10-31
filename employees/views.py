@@ -2,13 +2,57 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
-from school.models import OverallClasses, Organizations, RoomsType, Rooms, RoomsEquipment
+from school.models import OverallClasses, Organizations, RoomsType, Rooms, RoomsEquipment, UserProfile
 from .forms import OverallClassesForm, RoomsTypeForm, RoomForm, RoomsEquipmentForm
+from django.db.models import Count
 
 
 @login_required
 def home(request):
-    return render(request, 'employee/home.html')
+    user_profile = request.user.user_profile
+    organizations = Organizations.objects.filter(admin=user_profile)
+
+    if organizations.exists():
+        organization_instance = organizations.first()  # Handle the first organization
+
+        # Get RoomsEquipment for the user
+        equipment = RoomsEquipment.objects.filter(author=user_profile)[:5]
+
+        # Get Rooms for the organization
+        rooms = Rooms.objects.filter(organization=organization_instance)[:5]
+
+        # Get RoomsType statistics for the organization
+        rooms_type_stats = RoomsType.objects.filter(organization=organization_instance).annotate(count=Count('id'))[:5]
+
+        # Get OverallClasses for the organization
+        overall_classes = OverallClasses.objects.filter(organization=organization_instance).annotate(count=Count('id'))[:5]
+
+        # Prepare data for charts
+        room_types = [room_type.name for room_type in rooms_type_stats]
+        room_counts = [room_type.count for room_type in rooms_type_stats]
+
+        overall_class_names = [cls.name for cls in overall_classes]
+        overall_class_counts = [cls.count for cls in overall_classes]
+
+        context = {
+            'equipment': equipment,
+            'rooms': rooms,
+            'room_types': room_types,
+            'room_counts': room_counts,
+            'overall_class_names': overall_class_names,
+            'overall_class_counts': overall_class_counts,
+        }
+    else:
+        context = {
+            'equipment': [],
+            'rooms': [],
+            'room_types': [],
+            'room_counts': [],
+            'overall_class_names': [],
+            'overall_class_counts': [],
+        }
+
+    return render(request, 'employee/home.html', context)
 
 @login_required
 def class_list(request):

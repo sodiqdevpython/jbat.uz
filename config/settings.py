@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     #local
     'school',
-    'accounts'
+    'accounts',
+    'employees.apps.EmployeesConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ("bootstrap5",)
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware', # history uchun
+    'employees.middleware.OneActiveSessionMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'

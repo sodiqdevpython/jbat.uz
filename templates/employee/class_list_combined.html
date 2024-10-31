@@ -1,0 +1,135 @@
+{% extends 'base/base2.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Overall Classes Section -->
+    <h2>Umumiy sinflar</h2>
+    <div class="table-responsive mb-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nomi</th>
+                    <th>Xonalar soni</th>
+                    <th>O'chirish</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for oc in overall_classes_page_obj %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ oc.name }}</td>
+                    <td>{{ oc.rooms_amount }}</td>
+                    <td><a href="{% url 'delete_overall_class' oc.id %}" class="text-danger">O'chirish</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">Hech qanday umumiy sinf mavjud emas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% for page_num in overall_classes_page_obj.paginator.page_range %}
+            <a href="?overall_class_page={{ page_num }}">{{ page_num }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'class_list_combined' %}">
+        {% csrf_token %}
+        <input type="hidden" name="overall_class_submit">
+        {{ overall_class_form | crispy }}
+        <button type="submit" class="btn btn-primary">Yangi sinf qo'shish</button>
+    </form>
+
+    <hr>
+
+    <!-- Room Types Section -->
+    <h2>Xona Turlari</h2>
+    <div class="table-responsive mb-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nomi</th>
+                    <th>O'chirish</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rt in room_types_page_obj %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ rt.name }}</td>
+                    <td><a href="{% url 'delete_room_type' rt.id %}" class="text-danger">O'chirish</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Hech qanday xona turi mavjud emas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% for page_num in room_types_page_obj.paginator.page_range %}
+            <a href="?room_type_page={{ page_num }}">{{ page_num }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'class_list_combined' %}">
+        {% csrf_token %}
+        <input type="hidden" name="room_type_submit">
+        {{ room_type_form | crispy }}
+        <button type="submit" class="btn btn-primary">Yangi xona turi qo'shish</button>
+    </form>
+
+    <hr>
+
+    <!-- Rooms Section -->
+    <h2>Xonalar Ro'yxati</h2>
+    <div class="table-responsive mb-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kategoriya</th>
+                    <th>Sig'imi</th>
+                    <th>Raqami</th>
+                    <th>Sinf</th>
+                    <th>O'chirish</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms_page_obj %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ room.room_category.name }}</td>
+                    <td>{{ room.students_amount }} ta</td>
+                    <td>{{ room.room_number }}-xona</td>
+                    <td>{{ room.room_class.name }}</td>
+                    <td><a href="{% url 'delete_room' room.id %}" class="text-danger">O'chirish</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Hech qanday xona mavjud emas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% for page_num in rooms_page_obj.paginator.page_range %}
+            <a href="?room_page={{ page_num }}">{{ page_num }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'class_list_combined' %}">
+        {% csrf_token %}
+        <input type="hidden" name="room_submit">
+        {{ room_form | crispy }}
+        <button type="submit" class="btn btn-primary">Yangi xona qo'shish</button>
+    </form>
+</div>
+{% endblock %}

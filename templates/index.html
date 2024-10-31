@@ -10,7 +10,7 @@
             <div class="col-md-3">
                 <div class="card text-white bg-primary mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Jami Muassasalar</h4>
+                        <h4 class="card-title">Jami muassasalar</h4>
                         <p class="card-text display-4">{{ active_organizations }}</p>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
             <div class="col-md-3">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Faol Muassasalar</h4>
+                        <h4 class="card-title">Faol muassasalar</h4>
                         <p class="card-text display-4">{{ active_organizations }}</p>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
             <div class="col-md-3">
                 <div class="card text-white bg-danger mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Faol Bo'lmagan Muassasalar</h4>
+                        <h4 class="card-title">Faol bo'lmagan muassasalar</h4>
                         <p class="card-text display-4">{{ inactive_organizations }}</p>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
             <div class="col-md-3">
                 <div class="card text-white bg-info mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">Faol Foydalanuvchilar</h4>
+                        <h4 class="card-title">Faol foydalanuvchilar</h4>
                         <p class="card-text display-4">{{ user_count }}</p>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
         <!-- Most Equipped Organizations & Recent Equipment -->
         <div class="row mb-4 mt-5">
             <div class="col-md-6">
-                <h5 class="font-weight-bold">Eng Ko'p Jihozlangan Tashkilotlar</h5>
+                <h5 class="font-weight-bold">Eng ko'p jihozlangan muassasalar</h5>
                 <ul class="list-group">
                     {% for org in most_equipped_orgs %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -59,7 +59,7 @@
             </div>
 
             <div class="col-md-6">
-                <h5 class="font-weight-bold">Oxirgi Yangi Qo'shilayotgan Jihozlar</h5>
+                <h5 class="font-weight-bold">Oxirgi yangi qo'shilayotgan jihozlar</h5>
                 <div id="recentEquipmentsCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         {% for equip in recent_equipments %}
@@ -89,14 +89,14 @@
             </div>
 
             <div style="height: 400px;" class="col-md-6">
-                <h5 class="font-weight-bold">Viloyatlar bo'yicha Tashkilotlar</h5>
+                <h5 class="font-weight-bold">Viloyatlar bo'yicha muassasalar</h5>
                 <canvas id="orgRegionChart"></canvas>
             </div>
         </div>
 
         <!-- Last Equipments Table -->
         <div class="mt-5">
-            <h4>Bugun qo'shilgan jihozlar</h4>
+            <h4>Oxirgi 3 kunda qo'shilgan jihozlar</h4>
             <table class="table">
                 <thead>
                     <tr>
@@ -125,7 +125,7 @@
 
 
         <!-- Historical Records Section -->
-        <div class="row mb-4">
+        <!-- <div class="row mb-4">
             <div class="col-md-12">
                 <h5 class="font-weight-bold">Yaqinda Kiritilgan O'zgartirishlar</h5>
                 <table class="table table-bordered table-striped">
@@ -163,7 +163,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
 
 
     </div>
