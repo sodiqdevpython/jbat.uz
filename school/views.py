@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile, Organizations, Regions, Districts, RoomsEquipment
+from .models import UserProfile, Organizations, Regions, Districts, RoomsEquipment, Rooms
 from accounts.forms import UpdateProfileForm
 from django.db.models import Q, Count
 from .forms import UpdateOrganizationForm, CreateOrganizationForm
@@ -126,10 +126,12 @@ def organizations(request):
 def organization_detail(request, org_id):
 
     organization = get_object_or_404(Organizations, id=org_id)
+    rooms = Rooms.objects.filter(organization=organization, is_active=True)
     
     if organization.is_active:
         context = {
-            'organization': organization
+            'organization': organization,
+            'rooms': rooms
         }
         
         return render(request, 'organizations/detail.html', context)

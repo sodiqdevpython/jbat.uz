@@ -1,0 +1,50 @@
+{% extends 'base/base2.html' %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <h2 class="text-center mb-4">Umumiy Sinf va Xona Turi Qo'shish</h2>
+
+        <div class="card shadow-lg p-4 rounded">
+            <ul class="nav nav-tabs" id="addTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="class-tab" data-toggle="tab" href="#classForm" role="tab"
+                        aria-controls="classForm" aria-selected="true">Umumiy Sinf Qo'shish</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="room-tab" data-toggle="tab" href="#roomTypeForm" role="tab"
+                        aria-controls="roomTypeForm" aria-selected="false">Xona Turi Qo'shish</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3">
+                <!-- OverallClasses Form -->
+                <div class="tab-pane fade show active" id="classForm" role="tabpanel" aria-labelledby="class-tab">
+                    <form method="POST" class="mt-3">
+                        {% csrf_token %}
+                        {{ class_form.as_p }}
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Umumiy Sinf Qo'shish</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- RoomsType Form -->
+                <div class="tab-pane fade" id="roomTypeForm" role="tabpanel" aria-labelledby="room-tab">
+                    <form method="POST" class="mt-3">
+                        {% csrf_token %}
+                        {{ room_type_form.as_p }}
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Xona Turi Qo'shish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'class_list' %}" class="btn btn-secondary">Orqaga qaytish</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

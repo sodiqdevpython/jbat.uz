@@ -66,38 +66,22 @@
                     <table class="table table-bordered">
                         <thead class="bg-secondary text-white">
                             <tr>
-                                <th>Xona turi</th>
-                                <th>O'quvchilar sig'imi</th>
-                                <th>Jihoz nomi</th>
-                                <th>Jihoz miqdori</th>
-                                <th>Jihoz holati</th>
+                                <th>Xona sinfi</th>
+                                <th>Xona</th>
+                                <th>Sig'imi</th>
+                                <th>Xona raqami</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for room in rooms %}
                             <tr>
+                                <td>
+                                    {{ room.room_class }}
+                                </td>
                                 <td>{{ room.room_category.name }}</td>
-                                <td>{{ room.students_amount }}</td>
+                                <td>{{ room.students_amount }} ta</td>
                                 <td>
-                                    <ul>
-                                        {% for equipment in room.equipments %}
-                                        <li>{{ equipment.name }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        {% for equipment in room.equipments %}
-                                        <li>{{ equipment.amount }} {{ equipment.get_measure_type_display }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        {% for equipment in room.equipments %}
-                                        <li>{{ equipment.get_avilable_type_display }}</li>
-                                        {% endfor %}
-                                    </ul>
+                                    {{ room.room_number }}
                                 </td>
                             </tr>
                             {% empty %}
@@ -112,21 +96,6 @@
         </div>
 
 
-        <!-- Statistikalar -->
-        <div class="row mt-4">
-            <div class="col-lg-12">
-                <h3 class="page-subtitle">Statistikalar</h3>
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <p><strong>Muassasaning umumiy statistikasi:</strong></p>
-                        <ul>
-                            <li>Tashkilot turlari: {{ organization_statistics.type }}</li>
-                            <li>Tashkilot soni: {{ organization_statistics.number }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="mt-3 d-flex align-items-center justify-content-between">
             <a class="btn btn-primary shadow" href="{% url 'update_organization' organization.id %}">Tahrirlash</a>
             <!-- Modalni ochish uchun tugma -->

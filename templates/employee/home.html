@@ -44,12 +44,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                <h2 class="h4 mb-3">Oxirgi Jihozlar</h2>
+                <h2 class="h4 mb-3">Siz joylagan oxirgi jihozlar</h2>
                 <div id="equipmentCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         {% for item in equipment %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ item.image1.url }}" class="d-block" alt="{{ item.name }}">
+                            <img style="height: 600px;" src="{{ item.image1.url }}" class="d-block"
+                                alt="{{ item.name }}">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>{{ item.name }}</h5>
                                 <p>{{ item.amount }} {{ item.measure_type }} </p>

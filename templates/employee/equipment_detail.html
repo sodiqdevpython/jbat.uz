@@ -1,120 +1,126 @@
 {% extends 'base/base2.html' %}
 
 {% block content %}
-<div class="container py-5 mt-5">
-    <h2 class="text-center mb-4">Jihoz Tafsilotlari</h2>
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <h2 class="text-center mb-4">Jihoz tafsilotlari</h2>
 
-    <div class="card shadow p-4">
-        <div class="card-body">
-            <h4 class="card-title">Jihoz Nomi: {{ equipment.name }}</h4>
+        <div class="card shadow p-4">
+            <div class="card-body">
+                <h4 class="card-title">Jihoz Nomi: {{ equipment.name }}</h4>
 
-            <hr>
+                <hr>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Miqdori:</strong> {{ equipment.amount }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>O'lchov Birligi:</strong> {{ equipment.measure_type }}</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Holati:</strong> {{ equipment.avilable_type }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Qabul Qilingan Sana:</strong> {{ equipment.accepted_date|date:"d.m.Y" }}</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Invert Raqami:</strong> {{ equipment.invert_number }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Kirim Sanasi:</strong> {{ equipment.entered_date }}</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Foydalanish Boshlangan Sana:</strong> {{ equipment.when_first_time_used|date:"d.m.Y" }}
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Ishlab Chiqarilgan Yili:</strong> {{ equipment.when_made }}</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Eskirish foizi:</strong> {{ equipment.penny_by_year }}%</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Xona:</strong> {{ equipment.room.room_number }}-xona</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Turi:</strong> {{ equipment.equipment_type }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Jihozni kiritdi:</strong> {{ equipment.author }}</p>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Miqdori:</strong> {{ equipment.amount }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>O'lchov Birligi:</strong> {{ equipment.measure_type }}</p>
+                    </div>
                 </div>
 
-            </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Holati:</strong> {{ equipment.avilable_type }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Qabul Qilingan Sana:</strong> {{ equipment.accepted_date|date:"d.m.Y" }}</p>
+                    </div>
+                </div>
 
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <p><strong>Jihoz Rasmi 1:</strong></p>
-                    {% if equipment.image1 %}
-                    <a href="{{ equipment.image1.url }}"><img style="width: 200px; height: 200px; object-fit: center;"
-                            src="{{ equipment.image1.url }}" alt="Jihoz Rasmi 1" class="img-fluid"></a>
-                    {% else %}
-                    <p>1-rasm mavjud emas</p>
-                    {% endif %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Invert Raqami:</strong> {{ equipment.invert_number }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Kirim Sanasi:</strong> {{ equipment.entered_date }}</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <p><strong>Jihoz Rasmi 2:</strong></p>
-                    {% if equipment.image2 %}
-                    <a href="{{ equipment.image2.url }}"><img style="width: 200px; height: 200px; object-fit: center;"
-                            src="{{ equipment.image2.url }}" alt="Jihoz Rasmi 2" class="img-fluid"></a>
-                    {% else %}
-                    <p>2-rasm mavjud emas</p>
-                    {% endif %}
-                </div>
-                <div class="col-md-4">
-                    <p><strong>Jihoz Rasmi 3:</strong></p>
-                    {% if equipment.image3 %}
-                    <a href="{{ equipment.image3.url }}"><img style="width: 200px; height: 200px; object-fit: center;"
-                            width="300" src="{{ equipment.image3.url }}" alt="Jihoz Rasmi 3" class="img-fluid"></a>
-                    {% else %}
-                    <p>3-rasm mavjud emas</p>
-                    {% endif %}
-                </div>
-            </div>
 
-            <hr>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <p><strong>Yaratilgan sana:</strong> {{ equipment.created|date:"d.m.Y h:m:s" }}</p>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Foydalanish Boshlangan Sana:</strong>
+                            {{ equipment.when_first_time_used|date:"d.m.Y"}}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Ishlab Chiqarilgan Yili:</strong> {{ equipment.when_made }}</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <p><strong>Yangilangan Sana:</strong> {{ equipment.updated|date:"d.m.Y h:m:s" }}</p>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <p><strong>Jihoz Haqida:</strong> {{ equipment.xarakteri }}</p>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Eskirish foizi:</strong> {{ equipment.penny_by_year }}%</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Xona:</strong> {{ equipment.room.room_number }}-xona</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="text-center mt-4">
-                <a href="{% url 'equipment_list' %}" class="btn btn-secondary">Orqaga qaytish</a>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Turi:</strong> {{ equipment.equipment_type }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Jihozni kiritdi:</strong> {{ equipment.author }}</p>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p><strong>Jihoz Rasmi 1:</strong></p>
+                        {% if equipment.image1 %}
+                        <a href="{{ equipment.image1.url }}"><img
+                                style="width: 200px; height: 200px; object-fit: center;"
+                                src="{{ equipment.image1.url }}" alt="Jihoz Rasmi 1" class="img-fluid"></a>
+                        {% else %}
+                        <p>1-rasm mavjud emas</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Jihoz Rasmi 2:</strong></p>
+                        {% if equipment.image2 %}
+                        <a href="{{ equipment.image2.url }}"><img
+                                style="width: 200px; height: 200px; object-fit: center;"
+                                src="{{ equipment.image2.url }}" alt="Jihoz Rasmi 2" class="img-fluid"></a>
+                        {% else %}
+                        <p>2-rasm mavjud emas</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Jihoz Rasmi 3:</strong></p>
+                        {% if equipment.image3 %}
+                        <a href="{{ equipment.image3.url }}"><img
+                                style="width: 200px; height: 200px; object-fit: center;" width="300"
+                                src="{{ equipment.image3.url }}" alt="Jihoz Rasmi 3" class="img-fluid"></a>
+                        {% else %}
+                        <p>3-rasm mavjud emas</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Yaratilgan sana:</strong> {{ equipment.created|date:"d.m.Y h:m:s" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Yangilangan Sana:</strong> {{ equipment.updated|date:"d.m.Y h:m:s" }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><strong>Jihoz Haqida:</strong> {{ equipment.xarakteri }}</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'equipment_list' %}" class="btn btn-secondary">Orqaga qaytish</a>
+                </div>
             </div>
         </div>
     </div>

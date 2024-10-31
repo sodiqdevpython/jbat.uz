@@ -8,7 +8,7 @@
 
         <!-- Page Header and Add Button -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Xonalar Ro'yxati</h2>
+            <h2>Xonalar ro'yxati</h2>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomModal">
                 Yangi xona qo'shish
             </button>
@@ -48,6 +48,120 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Class list -->
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div class="w-full col-12 mt-5">
+                    <h2>Umumiy sinflar</h2>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table id="multi_col_order shadow"
+                                class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomi</th>
+                                        <th>Xonalar soni</th>
+                                        <th>O'chirish</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.name }}</td>
+                                        <td>{{ i.rooms_amount }}</td>
+                                        <td>
+                                            <a href="{% url 'delete_overall_class' i.id %}">
+                                                <i style="color: red;" data-feather="delete" class="feather-icon">
+                                                </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade" id="deleteModal{{ i.id }}" tabindex="-1" role="dialog"
+                                        aria-labelledby="deleteModalLabel{{ i.id }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel{{ i.id }}">O'chirish
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>{{ i.name }} ni o'chirishni xohlaysizmi?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="POST" action="{% url 'delete_overall_class' i.id %}">
+                                                        {% csrf_token %}
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Yopish</button>
+                                                        <button type="submit" class="btn btn-danger">O'chirish</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                                Qo'shish
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <div class="w-full col-12 mt-5">
+                    <h2>Muassasa xona turlari</h2>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table id="multi_col_order shadow"
+                                class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nomi</th>
+                                        <th>O'chirish</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for rt in rooms_types %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ rt.name }}</td>
+                                        <td>
+                                            <a href="{% url 'delete_rooms_type' rt.id %}">
+                                                <i style="color: red;" data-feather="delete" class="feather-icon">
+                                                </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal2">
+                                Qo'shish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Class list -->
 
         <!-- Modal for Room Creation -->
         <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">

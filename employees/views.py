@@ -137,10 +137,16 @@ def room_list(request):
 
     get_rooms = Rooms.objects.filter(organization=get_org, is_active=True)
 
+    get_list = OverallClasses.objects.filter(organization__admin = request.user.user_profile, is_active=True)
+    user_org = get_object_or_404(Organizations, admin = request.user.user_profile)
+    rooms_types = RoomsType.objects.filter(organization = user_org, is_active=True)
+
     context = {
         'overall_classes': OverallClasses.objects.filter(organization=get_org, is_active=True),
         'room_categories': RoomsType.objects.filter(organization=get_org, is_active=True),
-        'rooms': get_rooms
+        'rooms': get_rooms,
+        'data': get_list,
+        'rooms_types': rooms_types,
     }
 
     return render(request, 'employee/rooms-list.html', context)

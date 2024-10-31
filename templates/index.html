@@ -200,7 +200,7 @@
             data: {
                 labels: [{% for item in org_by_region %}"{{ item.name }}",{% endfor %}],
         datasets: [{
-            label: 'Viloyatlar bo\'yicha Tashkilotlar',
+            label: 'Viloyatlar bo\'yicha muassasa',
             data: [{% for item in org_by_region %}{{ item.org_count }}, {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.6)',
