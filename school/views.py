@@ -1,27 +1,76 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import OrganizationStatistics
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile, Organizations, Regions, Districts
+from .models import UserProfile, Organizations, Regions, Districts, RoomsEquipment
 from accounts.forms import UpdateProfileForm
 from django.db.models import Q, Count
 from .forms import UpdateOrganizationForm, CreateOrganizationForm
-
+from django.utils import timezone
+from datetime import timedelta
 
 @login_required
 def dashboard(request):
     if request.user.is_superuser:
-        stats = []
+        # Basic Stats
+        active_organizations = Organizations.objects.filter(is_active=True).count()
+        inactive_organizations = Organizations.objects.filter(is_active=False).count()
+        user_count = UserProfile.objects.filter(is_active=True).count()
+
+        # Type-based Organization Count for Chart
+        org_by_type = Organizations.objects.values('education_type').annotate(count=Count('id'))
+
+        # Most Equipped Organizations
+        most_equipped_orgs = (
+            Organizations.objects.annotate(equipment_count=Count('org_room__roomsequipment'))
+            .order_by('-equipment_count')[:5]
+        )
+
+        # Recent Equipment
+        recent_equipments = RoomsEquipment.objects.order_by('-created')[:10]
+
+        # Organizations by Region
+        org_by_region = (
+            Regions.objects.annotate(org_count=Count('organizations'))
+            .order_by('-org_count')
+        )
         
-        for stat in OrganizationStatistics.objects.all():
-            organization_count = Organizations.objects.filter(education_type=stat.type).count()
-            stats.append({
-                'type': stat.type,
-                'number': organization_count
+
+        # Retrieve historical records with old and new values for each change
+        historical_records = []
+        history_queryset = Organizations.history.order_by('-history_date')[:5]
+
+        three_days_ago = timezone.now() - timedelta(days=3)
+        last_equipments = RoomsEquipment.objects.filter(created__gte=three_days_ago)[:10]
+
+        for record in history_queryset:
+            changed_fields = []
+            old_value, new_value = None, None
+            if record.prev_record:
+                diff = record.prev_record.diff_against(record)
+                changed_fields = diff.changed_fields
+                old_value = {field: diff.old_record.__dict__.get(field) for field in changed_fields}
+                new_value = {field: record.__dict__.get(field) for field in changed_fields}
+
+            historical_records.append({
+                'instance': record.instance,
+                'history_date': record.history_date,
+                'history_change_reason': record.history_change_reason,
+                'changed_fields': changed_fields,
+                'old_value': old_value,
+                'new_value': new_value,
             })
 
         context = {
-            'stats': stats
+            'active_organizations': active_organizations,
+            'inactive_organizations': inactive_organizations,
+            'user_count': user_count,
+            'org_by_type': org_by_type,
+            'most_equipped_orgs': most_equipped_orgs,
+            'recent_equipments': recent_equipments,
+            'org_by_region': org_by_region,
+            'historical_records': historical_records,
+            'last_equipments': last_equipments
         }
+
         return render(request, 'index.html', context)
     else:
         return redirect('home')

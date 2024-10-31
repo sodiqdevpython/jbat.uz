@@ -3,28 +3,219 @@
 {% block content %}
 <div class="page-wrapper">
     <div class="container-fluid">
-        <div class="card-group">
-            {% for stat in stats %}
-            <div style="cursor: pointer;" class="card border-right">
-                <div class="card-body">
-                    <div class="d-flex d-lg-flex d-md-block align-items-center">
-                        <div>
-                            <div class="d-inline-flex align-items-center">
-                                <h2 class="text-dark mb-1 font-weight-medium">{{ stat.number }}</h2>
-                                <span
-                                    class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">
-                                    Jami {{ stat.number }}
-                                </span>
-                            </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                                {{ stat.type }}
-                            </h6>
-                        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row mb-4">
+            <!-- Total Organizations -->
+            <div class="col-md-3">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">Jami Muassasalar</h4>
+                        <p class="card-text display-4">{{ active_organizations }}</p>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+            <!-- Active Organizations -->
+            <div class="col-md-3">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">Faol Muassasalar</h4>
+                        <p class="card-text display-4">{{ active_organizations }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Inactive Organizations -->
+            <div class="col-md-3">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">Faol Bo'lmagan Muassasalar</h4>
+                        <p class="card-text display-4">{{ inactive_organizations }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- User Count -->
+            <div class="col-md-3">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">Faol Foydalanuvchilar</h4>
+                        <p class="card-text display-4">{{ user_count }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Most Equipped Organizations & Recent Equipment -->
+        <div class="row mb-4 mt-5">
+            <div class="col-md-6">
+                <h5 class="font-weight-bold">Eng Ko'p Jihozlangan Tashkilotlar</h5>
+                <ul class="list-group">
+                    {% for org in most_equipped_orgs %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ org.name }}
+                        <span class="badge badge-primary badge-pill">{{ org.equipment_count }} Jihozlar</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h5 class="font-weight-bold">Oxirgi Yangi Qo'shilayotgan Jihozlar</h5>
+                <div id="recentEquipmentsCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for equip in recent_equipments %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img style="height: 400px; object-fit: fill; overflow: hidden;" src="{{ equip.image1.url }}"
+                                class="d-block w-100" alt="{{ equip.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#recentEquipmentsCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Oldingi</span>
+                    </a>
+                    <a class="carousel-control-next" href="#recentEquipmentsCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Keyingi</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Detailed Stats Section -->
+        <div class="row mb-4">
+            <div style="height: 400px;" class="col-md-6">
+                <h5 class="font-weight-bold">Muassasa turlari kesimi bo'yicha</h5>
+                <canvas id="orgTypeChart"></canvas>
+            </div>
+
+            <div style="height: 400px;" class="col-md-6">
+                <h5 class="font-weight-bold">Viloyatlar bo'yicha Tashkilotlar</h5>
+                <canvas id="orgRegionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Last Equipments Table -->
+        <div class="mt-5">
+            <h4>Bugun qo'shilgan jihozlar</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Jihoz Nomi</th>
+                        <th>Miqdori</th>
+                        <th>Admin</th>
+                        <th>Qabul qilindi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipment in last_equipments %}
+                    <tr>
+                        <td>{{ equipment.name }}</td>
+                        <td>{{ equipment.amount }}</td>
+                        <td>{{ equipment.author }}</td>
+                        <td>{{ equipment.accepted_date|date:"d.m.Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">Uskunalar mavjud emas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Historical Records Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h5 class="font-weight-bold">Yaqinda Kiritilgan O'zgartirishlar</h5>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tashkilot</th>
+                            <th>O'zgarish sanasi</th>
+                            <th>O'zgartirilgan soha</th>
+                            <th>Oldingi qiymat</th>
+                            <th>Yangi qiymat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in historical_records %}
+                        <tr>
+                            <td>{{ record.instance.name }}</td>
+                            <td>{{ record.history_date|date:"Y-m-d" }}</td>
+                            <td>{{ record.changed_fields|join:", " }}</td>
+                            <td>
+                                {% for field, value in record.old_value.items %}
+                                <strong>{{ field }}</strong>: {{ value }}<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for field, value in record.new_value.items %}
+                                <strong>{{ field }}</strong>: {{ value }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">Hozircha o'zgarishlar yo'q.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
     </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for Organization Type Chart
+        const orgTypeCtx = document.getElementById('orgTypeChart').getContext('2d');
+        const orgTypeChart = new Chart(orgTypeCtx, {
+            type: 'bar',
+            data: {
+                labels: [{% for item in org_by_type %}"{{ item.education_type|safe }}",{% endfor %}],
+        datasets: [{
+            label: 'Tashkilotlar soni',
+            data: [{% for item in org_by_type %}{{ item.count }}, {% endfor %}],
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+        options: {
+            responsive: true,
+                scales: {
+                y: { beginAtZero: true }
+            }
+        }
+        });
+
+        // Data for Organization by Region Chart
+        const orgRegionCtx = document.getElementById('orgRegionChart').getContext('2d');
+        const orgRegionChart = new Chart(orgRegionCtx, {
+            type: 'pie',
+            data: {
+                labels: [{% for item in org_by_region %}"{{ item.name }}",{% endfor %}],
+        datasets: [{
+            label: 'Viloyatlar bo\'yicha Tashkilotlar',
+            data: [{% for item in org_by_region %}{{ item.org_count }}, {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ]
+                }]
+            },
+        options: {
+            responsive: true
+        }
+        });
+    </script>
 </div>
-{% endblock content %}
+{% endblock %}
