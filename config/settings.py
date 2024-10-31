@@ -144,7 +144,7 @@ STATIC_URL = 'static/'
 
 # Server
 STATIC_ROOT = '/home/jbatuz/jbat.uz/django/staticfiles'
-STATICFILES_DIRS = ('/home/jbatuz/jbat.uz/django/static')
+STATICFILES_DIRS = ('/home/jbatuz/jbat.uz/django/static',)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = '/home/jbatuz/jbat.uz/django/media'
 # /Server
